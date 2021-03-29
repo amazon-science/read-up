@@ -1,5 +1,8 @@
 # Learning Better Visual Dialog Agents with Pretrained Visual-Linguistic Representation
-This repo includes the training/testing code along with pretrained models for the paper _Learning Better Visual Dialog Agents with Pretrained Visual-Linguistic Representation_ that has been accepted by CVPR 2021.
+Or READ-UP: **R**eferring **E**xpression **A**gent **D**ialog with **U**nified **P**retraining.
+
+This repo includes the training/testing code for our paper _Learning Better Visual Dialog Agents with Pretrained Visual-Linguistic Representation_ that has been accepted by CVPR 2021. Please cite this work if you use the code in this repository.
+
 ## Repository Setup ## 
 ### Environment ### 
 The following environment is recommended:
@@ -160,7 +163,6 @@ $ tar -I pigz -xvf datasets.tar.gz datasets/guesswhat/
 ### Oracle ###
 To train our Oracle model:
 ``` 
-$ export PYTHONPATH=src:${PYTHONPATH}
 $ python -m torch.distributed.launch \
     --nproc_per_node=4 \
     --nnodes=1 \
@@ -172,14 +174,11 @@ $ python -m torch.distributed.launch \
 ```
 To evaluate our Oracle model:
 ``` 
-$ export PYTHONPATH=src:${PYTHONPATH}
 $ python main.py \
     --command test-oracle-vilbert \
     --config config_files/oracle_vilbert.yaml \
     --load ckpt/oracle_vilbert-sd0/epoch-3.pth
 ```
-You can also load our trained Oracle model _here_ for evaluation, by changing the pretrained-path in the model config file.
-
 This repo also implements other Oracle models:
 * Baseline Oracle model [1]
 * Baseline Oracle model + Faster-RCNN visual features (our ablation model)
@@ -190,7 +189,6 @@ To train and evaluate this model, run the main.py with corresponding config file
 ### Guesser ###
 To train our Guesser model:
 ``` 
-$ export PYTHONPATH=src:${PYTHONPATH}
 $ python main.py \
     --command train-guesser-vilbert \
     --config config_files/guesser_vilbert.yaml \
@@ -198,15 +196,12 @@ $ python main.py \
 ```
 To evaluate our Guesser model:
 ``` 
-$ export PYTHONPATH=src:${PYTHONPATH}
 $ python main.py \
     --command test-guesser-vilbert \
     --config config_files/guesser_vilbert.yaml \
     --n-jobs 8 \
     --load ckpt/guesser_vilbert-sd0/best.pth
 ```
-
-You can also load our trained Guesser model _here_ for evaluation, by changing the pretrained-path in the model config file.
 
 This repo also implements other Guesser models:
 * Baseline Guesser model [1]
@@ -216,7 +211,6 @@ To train and evaluate this model, run the main.py with corresponding config file
 ### Q-Gen ###
 To train our Q-Gen model:
 ``` 
-$ export PYTHONPATH=src:${PYTHONPATH}
 # Distributed training
 $ python -m torch.distributed.launch \
     --nproc_per_node=4 \
@@ -235,14 +229,11 @@ $ python main.py \
 ```
 To evalaute our Q-Gen model:
 ``` 
-$ export PYTHONPATH=src:${PYTHONPATH}
 $ python main.py \
     --command test-self-play-all-vilbert \
     --config config_files/self_play_all_vilbert.yaml \
     --n-jobs 8
 ```
-You can also load our trained Q-Gen model _here_ for evaluation, by changing the pretrained-path in the model config file.
-
 This repo also implements other Q-Gen models:
 * Baseline Q-Gen model [1]
 * VDST Q-Gen model [2]
