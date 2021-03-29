@@ -1,5 +1,5 @@
 # Learning Better Visual Dialog Agents with Pretrained Visual-Linguistic Representation
-Or READ-UP: **R**eferring **E**xpression **A**gent **D**ialog with **U**nified **P**retraining.
+Or **READ-UP**: **R**eferring **E**xpression **A**gent **D**ialog with **U**nified **P**retraining.
 
 This repo includes the training/testing code for our paper _Learning Better Visual Dialog Agents with Pretrained Visual-Linguistic Representation_ that has been accepted by CVPR 2021. Please cite this work if you use the code in this repository.
 
