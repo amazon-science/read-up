@@ -13,9 +13,9 @@ cuda 10.0
 ```
 Set up virtual environment and install pytorch:
 ```
-$ conda create -n ispy python=3.6
-$ conda activate ispy
-$ git clone ssh://git.amazon.com/pkg/ISpy
+$ conda create -n read_up python=3.6
+$ conda activate read_up
+$ git clone https://github.com/amazon-research/read-up.git
 
 # [IMPORTANT] pytorch 1.4.0 have no issue for parallel training
 $ conda install pytorch==1.4.0 torchvision==0.5.0 cudatoolkit=10.0 -c pytorch
@@ -57,11 +57,11 @@ Prepare dict.json:
 ``` 
 $ python src/guesswhat/preprocess_data/create_dictionary.py -data_dir data -dict_file dict.json -min_occ 3
 ```
-3. Copy dict.json file to ISpy repo:
+3. Copy dict.json file to read-up repo:
 ``` 
-$ cd ISpy
+$ cd read-up
 $ mmkdir tf-pretrained-model
-$ cp guesswhat/data/dict.json ISpy/tf-pretrained-model/
+$ cp guesswhat/data/dict.json read-up/tf-pretrained-model/
 ```
 
 ### Dataset for Oracle models ###
