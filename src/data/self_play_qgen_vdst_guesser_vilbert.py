@@ -181,16 +181,9 @@ def collate_fn(batch, wrd_pad_id):
     
     tgt_cat = torch.stack(tgt_cat).long()
     tgt_bbox_gw = torch.stack(tgt_bbox_gw).float()
-    # tgt_bbox_vb = torch.stack(tgt_bbox_vb).float()
-    # tgt_img_feat = torch.stack(tgt_img_feat).float()
-    # (batch_size, padded_num_obj)
+
     cats_guesser = pad_sequence(cats_guesser, batch_first=True).long()
-    # (batch_size, padded_num_bboxs, feat dim)
-    # img_feat = pad_sequence(img_feat, batch_first=True).float()
-    # (batch_size, padded_num_bboxs, spatial dim)
-    # bboxs_gt_gw = pad_sequence(bboxs_gt_gw, batch_first=True).float()
-    # bboxs_gt_vb = pad_sequence(bboxs_gt_vb, batch_first=True).float()
-    # (batch_size, padded_num_obj)
+
     bboxs_mask = [torch.ones(len(xs)) for xs in bboxs_rcnn_gt_guesser]
     bboxs_mask = pad_sequence(bboxs_mask, batch_first=True).bool()
     # (batch_size, padded_seq_length)
@@ -198,12 +191,7 @@ def collate_fn(batch, wrd_pad_id):
 
     image_features_rcnn_qgen = torch.stack(image_features_rcnn_qgen).float()
     bboxs_rcnn_qgen = torch.stack(bboxs_rcnn_qgen).float()
-    # qgen_obj_feats = torch.cat([qgen_img_feats, qgen_bboxs], dim=-1)
 
-    # image_features_rcnn_oracle = torch.stack(image_features_rcnn_oracle).float()
-    # bboxs_rcnn_oracle = torch.stack(bboxs_rcnn_oracle).float()
-
-    # image_features_rcnn_gt_guesser = torch.stack(image_features_rcnn_gt_guesser).float()
     image_features_rcnn_gt_guesser = pad_sequence(image_features_rcnn_gt_guesser, batch_first=True).float()
     bboxs_rcnn_gt_guesser = pad_sequence(bboxs_rcnn_gt_guesser, batch_first=True).float()
 

@@ -152,21 +152,15 @@ class SelfPlaySolver(BaseSolver):
         for val_step, data in enumerate(specified_set):
             game, qgen_img_feats, qgen_bboxs, tgt_cat, tgt_bbox, cats, bboxs, bboxs_mask, label, qs, q_len = self.fetch_data(data)
             with torch.no_grad():
-                # if self.use_gt_question:
-                #     pred, dialog = self.model.play_with_gt_question(
-                #         qs, q_len, tgt_cat, tgt_bbox, cats, bboxs, bboxs_mask, 
-                #         self.tokenizer.pad_id, self.answer2id, self.answer2token)
-                    
-                # else:
                 pred, dialog, q_log, a_log, a_conf_log = self.model.play(
                     qgen_img_feats, qgen_bboxs, tgt_cat, tgt_bbox, cats, bboxs, bboxs_mask,
                     self.tokenizer.sos_id, self.tokenizer.pad_id, 
                     self.tokenizer.eoq_id, self.tokenizer.eod_id,
                     self.answer2id, self.answer2token,
-                    max_q_len=20, greedy=False, max_turns=5, # changed greedy = False for diversity
+                    max_q_len=20, greedy=True, max_turns=5, # changed greedy = False for diversity
                     answer_as_sos=self.config['model']['qgen']['answer_as_sos']
                 )
-                # out_str = "{}|{}/{}".format(game[b].id, pred[b].argmax(dim=-1).item(), label[b].item())
+
                 for b in range(pred.size(0)):
                     out_prefix = "{}|{}|{}".format(game[b].id, pred[b].argmax(dim=-1).item(), label[b].item())
                     for t in range(len(q_log[b])):
@@ -176,8 +170,6 @@ class SelfPlaySolver(BaseSolver):
                             out_str += "{}|{:.3f}".format(self.tokenizer.decode(a_log[b][t].tolist()), a_conf_log[b][t])
                         out_file.write(out_str+'\n')
 
-                    # out_file.write("{}|{}/{}|{}\n".format(
-                        # game[b].id, pred[b].argmax(dim=-1).item(), label[b].item(), self.tokenizer.decode(dialog[b].tolist())))
                 total_hit += (pred.argmax(dim=-1) == label).sum().item()
                 total_cnt += pred.size(0)
                 # if (val_step == 0) or ((val_step+1) % self._progress_step == 0):
@@ -185,17 +177,13 @@ class SelfPlaySolver(BaseSolver):
                     val_step+1, len(specified_set), total_hit/float(total_cnt)))
                 # Log
                 if self.mode == 'train':
-                    NOT_IMPLEMENT_YET()
+                    pass
 
                         
         if self.mode == 'train':
-            # TODO: write log
-            # self.write_log('scalars', 'accuracy', {'dev': avg_acc})
-            # self.write_log('scalars', 'accuracy', {'dev-nopad': avg_acc_nopad})
-            # self.write_log('scalars', 'loss', {'dev': avg_loss})
+
             score = -avg_loss
             if score > self.best_score:
-                #self.save_checkpoint('step_{}.pth'.format(self.step), score)
                 self.save_checkpoint('best.pth', score)
                 self.best_score = score
             self.model.train()

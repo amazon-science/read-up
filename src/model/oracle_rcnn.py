@@ -20,7 +20,7 @@ class OracleModel(nn.Module):
         img_hidden_size,
         mlp_hidden,
         num_classes,
-        wrd_emb_mode="bert", #'from_scratch',
+        wrd_emb_mode='from_scratch',
         wrd_emb_path=None,
         num_attn_heads=None,
         **kwargs

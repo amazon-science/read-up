@@ -1,6 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: CC-BY-NC-4.0
-# our q-gen model
+# Train our q-gen model
 hparas:
   max_epoch: 50
   optimizer: "AdamW"

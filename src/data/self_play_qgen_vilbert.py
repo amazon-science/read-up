@@ -64,12 +64,6 @@ class SelfPlayDataset(GuessWhatDataset):
                 item['bboxs'] = [
                     bbox2spatial_gw(box, game.image_width, game.image_height) for box in game.bboxs]
 
-                # item['image_feature'] = self._image_features_reader[game.image_id]
-                # feats, bboxs, _ = self._image_features_reader[game.image_id]
-                # item['qgen_image_features'] = feats
-                # item['qgen_bboxs'] = [
-                #     bbox2spatial_gw(box, game.image_width, game.image_height, mode='xyxy') 
-                #     for box in bboxs]
                 item['qs'] = qs
                 # item['q_len'] = q_len
                 entries.append(item)
@@ -80,8 +74,7 @@ class SelfPlayDataset(GuessWhatDataset):
             entry['target_index'] = torch.from_numpy(np.array(entry['target_index']))
             entry['categories'] = torch.from_numpy(np.array(entry['categories']))
             entry['bboxs'] = torch.from_numpy(np.array(entry['bboxs']))
-            # entry['qgen_image_features'] = torch.from_numpy(np.array(entry['qgen_image_features']))
-            # entry['qgen_bboxs'] = torch.from_numpy(np.array(entry['qgen_bboxs']))
+
 
     def __getitem__(self, index):
         entry = self.entries[index]
@@ -152,8 +145,7 @@ def collate_fn(batch, wrd_pad_id):
     tgt_bbox = torch.stack(tgt_bbox).float()
     # (batch_size, padded_num_obj)
     cats = pad_sequence(cats, batch_first=True).long()
-    # (batch_size, padded_num_bboxs, feat dim)
-    # img_feat = pad_sequence(img_feat, batch_first=True).float()
+
     # (batch_size, padded_num_bboxs, spatial dim)
     bboxs = pad_sequence(bboxs, batch_first=True).float()
     # (batch_size, padded_num_obj)

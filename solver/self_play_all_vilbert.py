@@ -64,7 +64,6 @@ class SelfPlaySolver(BaseSolver):
             self.verbose(["Use Bert tokenizer"])
             #tokenizer = BERT_Tokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
             tokenizer = BERT_Tokenizer.initialize()
-            print(tokenizer.vocab)
         else:
             tokenizer = GW_Tokenizer(config['data']['vocab_path'])
         
@@ -232,21 +231,15 @@ class SelfPlaySolver(BaseSolver):
                         self.tokenizer.eoq_id, self.tokenizer.eod_id,
                         self.answer2id, self.answer2token, max_q_len=20, max_turns=8,
                     )
-                print(q_log)
                 question_tokens = self.tokenizer.decode(q_log[0][0].tolist())
-                print(question_tokens)
-                # out_str = "{}|{}/{}".format(game[b].id, pred[b].argmax(dim=-1).item(), label[b].item())
                 for b in range(pred.size(0)):
                     out_prefix = "{}|{}|{}".format(game[b].id, pred[b].argmax(dim=-1).item(), label[b].item())
                     for t in range(len(q_log[b])):
                         out_str = out_prefix + "|{}|{}|".format(t, self.tokenizer.decode(q_log[b][t].tolist()))
-                        # if t != len(q_log[b])-1:
                         if len(a_log[b]) > t:
                             out_str += "{}|{:.3f}".format(self.tokenizer.decode(a_log[b][t].tolist()), a_conf_log[b][t])
                         out_file.write(out_str+'\n')
 
-                    # out_file.write("{}|{}/{}|{}\n".format(
-                        # game[b].id, pred[b].argmax(dim=-1).item(), label[b].item(), self.tokenizer.decode(dialog[b].tolist())))
                 total_hit += (pred.argmax(dim=-1) == label).sum().item()
                 total_cnt += pred.size(0)
                 # if (val_step == 0) or ((val_step+1) % self._progress_step == 0):
@@ -258,10 +251,7 @@ class SelfPlaySolver(BaseSolver):
 
                         
         if self.mode == 'train':
-            # TODO: write log
-            # self.write_log('scalars', 'accuracy', {'dev': avg_acc})
-            # self.write_log('scalars', 'accuracy', {'dev-nopad': avg_acc_nopad})
-            # self.write_log('scalars', 'loss', {'dev': avg_loss})
+
             score = -avg_loss
             if score > self.best_score:
                 #self.save_checkpoint('step_{}.pth'.format(self.step), score)

@@ -60,7 +60,7 @@ $ python src/guesswhat/preprocess_data/create_dictionary.py -data_dir data -dict
 3. Copy dict.json file to read-up repo:
 ``` 
 $ cd read-up
-$ mmkdir tf-pretrained-model
+$ mkdir tf-pretrained-model
 $ cp guesswhat/data/dict.json read-up/tf-pretrained-model/
 ```
 
@@ -73,7 +73,7 @@ Under `vqa-maskrcnn-benchmark/data/`, download RCNN model and COCO images:
 $ wget https://dl.fbaipublicfiles.com/vilbert-multi-task/detectron_model.pth
 $ wget https://dl.fbaipublicfiles.com/vilbert-multi-task/detectron_config.yaml
 
-# download COCO data under 
+# download COCO data  
 $ wget http://images.cocodataset.org/zips/train2014.zip
 $ wget http://images.cocodataset.org/zips/val2014.zip
 $ wget http://images.cocodataset.org/zips/test2014.zip

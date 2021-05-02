@@ -1,6 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: CC-BY-NC-4.0
-# baseline guesser
+# Train and evaluate baseline guesser
 hparas:
   max_epoch: 15
   optimizer: "AdamW"

@@ -27,10 +27,23 @@ class SelfPlayModel(nn.Module):
             self_play_obj.load_play("guesser", ckpt_path)
         """
         assert player in ['qgen', 'oracle', 'guesser'],\
-            "`player` should be one of ('qgen', 'oracle', 'guesser')."  
-        getattr(self, player).load_state_dict(
-            torch.load(path, map_location=map_location)['model']
-        )
+            "`player` should be one of ('qgen', 'oracle', 'guesser')."
+        # qing add
+        if player in ['oracle']:
+            from collections import OrderedDict
+            player_model = torch.load(path, map_location=map_location)
+            new_state_dict = OrderedDict()
+            for k, v in player_model['model'].items():
+                name = k[7:]  # remove `module.`
+                new_state_dict[name] = v
+            getattr(self, player).load_state_dict(
+                new_state_dict
+            )
+        else:
+
+            getattr(self, player).load_state_dict(
+                torch.load(path, map_location=map_location)['model']
+            )
         return "Load %s from %s" % (player, path)
 
 
@@ -170,9 +183,7 @@ class SelfPlayModel(nn.Module):
                 last_wrd, obj_feats, eoq_token, eod_token, end_of_dialog, 
                 max_q_len=max_q_len, pi=pi, last_state=last_state, greedy=greedy
             )
-            # q, state, q_len, end_of_dialog_next = self.qgen.generate(
-            #     last_wrd, img_feat, eoq_token, eod_token, end_of_dialog, 
-            #     max_q_len, last_state=last_state, greedy=greedy)
+
             
             pad_q = pad_sequence(q, batch_first=True, padding_value=pad_token)
             q_plus_cls_token = torch.cat([sos, pad_q], dim=-1)

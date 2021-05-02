@@ -49,11 +49,7 @@ class SelfPlayModel(nn.Module):
             )
         return "Load %s from %s" % (player, path)
 
-    # generate_sentence(
-    #     self, last_wrd, obj_feats, eoq_token, eod_token, end_of_dialog, 
-    #     max_q_len, pi=None, last_state=None, greedy=True):
-    # return:
-    #     q_tokens, actual_length, last_state, obj_repr, end_of_dialog
+
     def play_with_gt_questions(
         self,
         qs, 
@@ -188,10 +184,7 @@ class SelfPlayModel(nn.Module):
         guesser_final_logits = torch.zeros_like(guesser_state)
         logits = torch.ones_like(guesser_final_logits)
         for turn in range(max_turns):
-            # q, q_len, state, obj_repr, end_of_dialog_next = self.qgen.generate_sentence(
-            #     last_wrd, obj_feats, eoq_token, eod_token, end_of_dialog, 
-            #     max_q_len=max_q_len, pi=pi, last_state=last_state, greedy=greedy
-            # )
+
             q, q_len, state, end_of_dialog_next = self.qgen.generate_sentence(
                 last_wrd, qgen_img_feats, qgen_bboxs, eoq_token, eod_token, end_of_dialog, 
                 max_q_len=max_q_len, pi=pi, last_state=last_state, greedy=greedy

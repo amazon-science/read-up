@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: CC-BY-NC-4.0
 import time
 
+
 def human_format(num):
     magnitude = 0
     while num >= 1000:
@@ -9,6 +10,7 @@ def human_format(num):
         num /= 1000.0
     # add more suffixes if you need them
     return '{:3}{}'.format(num, [' ', 'K', 'M', 'G', 'T', 'P'][magnitude])
+
 
 def cal_hit(pred, label, pad_id=None):
     bz = pred.size(0)
@@ -23,8 +25,6 @@ def cal_hit(pred, label, pad_id=None):
             if p == l and p != pad_id:
                 hit += 1
     return hit
-    
-
 
 
 class Timer():

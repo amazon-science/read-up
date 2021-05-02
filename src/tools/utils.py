@@ -1,10 +1,13 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: CC-BY-NC-4.0
+
+
 import io
 import torch
 import jsonlines
 import numpy as np
 from tqdm import tqdm
 from pathlib import Path
-from transformers import BertModel
 
 
 def xywh2xyxy(bbox):
@@ -12,6 +15,7 @@ def xywh2xyxy(bbox):
     bbox[2] += bbox[0]
     bbox[3] += bbox[1]
     return bbox
+
 
 def get_refcoco_refId_to_boxIdx(path):
     xs = np.load(path, allow_pickle=True)
@@ -22,6 +26,7 @@ def get_refcoco_refId_to_boxIdx(path):
         for idx, rid in enumerate(x['ref_ids']):
             id2box[img_id][rid] = idx
     return id2box
+
 
 def add_global_vilbert_feats(feats, bboxs, input_torch=False):
     if input_torch:
@@ -35,6 +40,7 @@ def add_global_vilbert_feats(feats, bboxs, input_torch=False):
         feats = np.concatenate([np.expand_dims(g_feat, axis=0), feats], axis=0)
         bboxs = np.concatenate([np.expand_dims(g_bbox, axis=0), bboxs], axis=0)
     return feats, bboxs
+
 
 def bbox2spatial_vilbert(bbox, image_width, image_height, mode='xywh'):
     if mode == 'xywh':
@@ -51,6 +57,7 @@ def bbox2spatial_vilbert(bbox, image_width, image_height, mode='xywh'):
     image_location[2] /= float(image_width)
     image_location[3] /= float(image_height)
     return image_location
+
 
 def bbox2spatial_gw(bbox, image_width, image_height, mode='xywh'):
     if mode == 'xywh':
@@ -87,7 +94,8 @@ def bbox2spatial_gw(bbox, image_width, image_height, mode='xywh'):
         x_center, y_center, x_width, y_height
     ]
     return spatial
-        
+
+
 def load_fasttext(fname):
     fin = io.open(fname, 'r', encoding='utf-8', newline='\n', errors='ignore')
     num_words, dim = map(int, fin.readline().split())
@@ -99,6 +107,7 @@ def load_fasttext(fname):
         # cnt += 1
         # if cnt >= 40000: break
     return num_words, dim, data
+
 
 def load_glove(fname, only_vocab=False, norm=True):
     with open(fname, 'r') as f:
@@ -122,6 +131,7 @@ def load_glove(fname, only_vocab=False, norm=True):
     else:
         return vocab, ivocab, np.array(vectors)
 
+
 def load_mscoco_obj_vocab(path):
     mscoco_obj_vocab = dict()
     mscoco_obj_vocab[0] = ''
@@ -130,6 +140,7 @@ def load_mscoco_obj_vocab(path):
             obj_name = line.strip() 
             mscoco_obj_vocab[i] = obj_name
     return mscoco_obj_vocab
+
 
 def load_rcnn_obj_vocab(path):
     rcnn_obj_vocab = dict()
@@ -142,8 +153,10 @@ def load_rcnn_obj_vocab(path):
             rcnn_obj_vocab[i] = obj_name
     return rcnn_obj_vocab
 
+
 def get_mscoco_id(path):
     return int(Path(path).stem.split('_')[-1])
+
 
 def get_mscoco_idmap(mscoco_dir):
     imgs = Path(mscoco_dir).rglob("*.jpg")
@@ -151,6 +164,7 @@ def get_mscoco_idmap(mscoco_dir):
     for path in imgs:
         idmap[int(path.stem.split('_')[-1])] = path
     return idmap
+
 
 def load_all_gt_games(annotation_path, verbose=False, debug=False):
     if verbose:

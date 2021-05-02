@@ -180,7 +180,6 @@ class OracleSolver(BaseSolver):
         score = total_hit / float(cnt)
         loss = total_loss / float(len(specified_set))
         if score > self.best_score and self.mode == 'train':
-            #self.save_checkpoint('step_{}.pth'.format(self.step), score)
             self.save_checkpoint('best.pth', score)
             self.best_score = score
 

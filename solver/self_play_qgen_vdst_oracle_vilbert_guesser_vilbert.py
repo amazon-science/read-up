@@ -231,10 +231,8 @@ class SelfPlaySolver(BaseSolver):
                         self.tokenizer.eoq_id, self.tokenizer.eod_id,
                         self.answer2id, self.answer2token, max_q_len=20, max_turns=8,
                     )
-                # out_str = "{}|{}/{}".format(game[b].id, pred[b].argmax(dim=-1).item(), label[b].item())
                 for b in range(pred.size(0)):
                     # Start Qing eidts
-                    # out_prefix = "{}|{}|{}".format(game[b].id, pred[b].argmax(dim=-1).item(), label[b].item())
                     out_prefix = "{}|{}|{}|{}".format(game[b].id, game[b].image_id, pred[b].argmax(dim=-1).item(), label[b].item())
                     # end Qing edits
                     for t in range(len(q_log[b])):
@@ -244,8 +242,6 @@ class SelfPlaySolver(BaseSolver):
                             out_str += "{}|{:.3f}".format(self.tokenizer.decode(a_log[b][t].tolist()), a_conf_log[b][t])
                         out_file.write(out_str+'\n')
 
-                    # out_file.write("{}|{}/{}|{}\n".format(
-                        # game[b].id, pred[b].argmax(dim=-1).item(), label[b].item(), self.tokenizer.decode(dialog[b].tolist())))
                 total_hit += (pred.argmax(dim=-1) == label).sum().item()
                 total_cnt += pred.size(0)
                 # if (val_step == 0) or ((val_step+1) % self._progress_step == 0):

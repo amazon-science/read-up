@@ -172,7 +172,6 @@ class OracleSolver(BaseSolver):
                     update_vilbert=True, 
                     attention_mask=txt_attn_mask,
                 )
-                #loss = self.loss(pred, answer) / float(len(answer))
                 loss = self.loss(pred, answer)
                 acc = (pred.argmax(dim=-1) == answer).sum().item() / float(len(answer))
                 self.timer.cnt('fw')
@@ -245,7 +244,6 @@ class OracleSolver(BaseSolver):
                 self.save_checkpoint('epoch-%d.pth' % (epoch), score)
         else:
             if score > self.best_score and self.mode == 'train':
-                #self.save_checkpoint('step_{}.pth'.format(self.step), score)
                 self.save_checkpoint('best.pth', score)
                 self.best_score = score
 

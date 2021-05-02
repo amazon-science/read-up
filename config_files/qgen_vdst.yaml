@@ -1,6 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: CC-BY-NC-4.0
-# VDST q-gen model
+# Train VDST q-gen model
 hparas:
   max_epoch: 50
   optimizer: "AdamW"

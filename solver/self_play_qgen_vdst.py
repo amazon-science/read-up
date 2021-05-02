@@ -76,9 +76,7 @@ class SelfPlaySolver(BaseSolver):
 
     def fetch_data(self, data):
         game, obj_feats, tgt_cat, tgt_bbox, cats, bboxs, bboxs_mask, label, qs, q_len = data
-        # start: Qing adds
         obj_feats = obj_feats[:,0:36,:]
-        # end: Qing adds
         return (
             game,
             obj_feats.to(self.device),
@@ -204,21 +202,16 @@ class SelfPlaySolver(BaseSolver):
                     self.answer2id, self.answer2token,
                     max_q_len=20, greedy=True, max_turns=5
                 )
-                # out_str = "{}|{}/{}".format(game[b].id, pred[b].argmax(dim=-1).item(), label[b].item())
                 for b in range(pred.size(0)):
                     # start Qing edits
-                    # out_prefix = "{}|{}|{}".format(game[b].id, pred[b].argmax(dim=-1).item(), label[b].item())
                     out_prefix = "{}|{}|{}|{}".format(game[b].id, game[b].image_id, pred[b].argmax(dim=-1).item(), label[b].item())
                     # end Qing edits
                     for t in range(len(q_log[b])):
                         out_str = out_prefix + "|{}|{}|".format(t, self.tokenizer.decode(q_log[b][t].tolist()))
-                        # if t != len(q_log[b])-1:
                         if len(a_log[b]) > t:
                             out_str += "{}|{:.3f}".format(self.tokenizer.decode(a_log[b][t].tolist()), a_conf_log[b][t])
                         out_file.write(out_str+'\n')
 
-                    # out_file.write("{}|{}/{}|{}\n".format(
-                        # game[b].id, pred[b].argmax(dim=-1).item(), label[b].item(), self.tokenizer.decode(dialog[b].tolist())))
                 total_hit += (pred.argmax(dim=-1) == label).sum().item()
                 total_cnt += pred.size(0)
                 # if (val_step == 0) or ((val_step+1) % self._progress_step == 0):
@@ -229,10 +222,7 @@ class SelfPlaySolver(BaseSolver):
 
                         
         if self.mode == 'train':
-            # TODO: write log
-            # self.write_log('scalars', 'accuracy', {'dev': avg_acc})
-            # self.write_log('scalars', 'accuracy', {'dev-nopad': avg_acc_nopad})
-            # self.write_log('scalars', 'loss', {'dev': avg_loss})
+
             score = -avg_loss
             if score > self.best_score:
                 #self.save_checkpoint('step_{}.pth'.format(self.step), score)

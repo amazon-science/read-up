@@ -41,11 +41,6 @@ class SelfPlayModel(nn.Module):
         getattr(self, player).load_state_dict(new_state_dict)
         return "Load %s from %s" % (player, path)
 
-    # generate_sentence(
-    #     self, last_wrd, obj_feats, eoq_token, eod_token, end_of_dialog, 
-    #     max_q_len, pi=None, last_state=None, greedy=True):
-    # return:
-    #     q_tokens, actual_length, last_state, obj_repr, end_of_dialog
 
     def play(self, qgen_img_feats, qgen_bboxs, tgt_cat, tgt_bbox, cats, bboxs, bboxs_mask, 
              sos_token, pad_token, eoq_token, eod_token, 
@@ -58,8 +53,7 @@ class SelfPlayModel(nn.Module):
         last_wrd = torch.zeros(batch_size).fill_(sos_token).long().to(device)
         last_state = None
 
-        # obj_feats = torch.cat([qgen_img_feats, qgen_bboxs], dim=-1)
-        # pi = (torch.ones(batch_size, num_bboxs) / num_bboxs).to(device)
+
         pi = self.qgen.state_handler.init_state(batch_size, num_bboxs, device)
         
         dialog = [torch.LongTensor(0).to(device) for _ in range(batch_size)]

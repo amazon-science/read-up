@@ -153,7 +153,7 @@ class QGenSolver(BaseSolver):
             lr=[self.config['hparas']['lr']['state_handler'], self.config['hparas']['lr']['other']],
             lr_scheduler=self.config['hparas']['lr_scheduler']
         )
-        # self.loss = nn.CrossEntropyLoss(reduction='sum')
+
         self.loss = nn.CrossEntropyLoss(ignore_index=self.tokenizer.pad_id)
         self.loss_guess = nn.CrossEntropyLoss()
 
@@ -211,8 +211,6 @@ class QGenSolver(BaseSolver):
                     qs, qs_tf_in, q_len, answers, img_feats, bboxs, txt_attn_mask, end_turn, update_vilbert=self.config['model']['update_state_handler'])
                 loss = self.loss(pred.reshape(-1, pred.size(-1)), tgt.reshape(-1))
 
-                # loss += self.guess_loss_weight * self.loss_guess(guess_logits, label)
-                # acc = (guess_logits.argmax(dim=-1) == label).sum().item() / float(len(label))
 
                 self.timer.cnt('fw')
                 # Backward
@@ -245,8 +243,6 @@ class QGenSolver(BaseSolver):
                 pred, _, guess_logits = self.model.forward(
                     qs, qs_tf_in, q_len, answers, img_feats, bboxs, txt_attn_mask, end_turn)
                 loss = self.loss(pred.reshape(-1, pred.size(-1)), tgt.reshape(-1))
-                # loss +=  self.guess_loss_weight * self.loss_guess(guess_logits, label)
-                # acc = (guess_logits.argmax(dim=-1) == label).sum().item() / float(len(label))
 
                 total_loss += loss
                 if (val_step == 0) or ((val_step+1) % self._progress_step == 0):

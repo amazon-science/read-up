@@ -1,6 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: CC-BY-NC-4.0
-# evaluate baseline q-gen with baseline guesser + baseline oracle
+# Evaluate baseline q-gen with baseline guesser + baseline oracle
 hparas:
   max_epoch: 30
   optimizer: "Adam"

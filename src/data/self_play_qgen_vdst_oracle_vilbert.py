@@ -69,19 +69,7 @@ class SelfPlayDataset(GuessWhatDataset):
                     bbox2spatial_gw(box, game.image_width, game.image_height) for box in game.bboxs]
                 item['bboxs_gt_vb'] = [
                     bbox2spatial_vilbert(box, game.image_width, game.image_height) for box in game.bboxs]
-                # item['image_feature_gt'] = self._image_features_reader_gt[game.image_id]
 
-                # feats, bboxs, _ = self._image_features_reader['qgen'][game.image_id]
-                # item['image_features_rcnn_qgen'] = feats
-                # item['bboxs_rcnn_qgen'] = [
-                #     bbox2spatial_gw(box, game.image_width, game.image_height, mode='xyxy') 
-                #     for box in bboxs]
-
-                # feats, bboxs, _ = self._image_features_reader['oracle'][game.image_id]
-                # item['image_features_rcnn_oracle'] = feats
-                # item['bboxs_rcnn_oracle'] = [
-                #     bbox2spatial_vilbert(box, game.image_width, game.image_height, mode='xyxy') 
-                #     for box in bboxs]
                 item['qs'] = qs
                 # item['q_len'] = q_len
                 entries.append(item)
@@ -93,9 +81,7 @@ class SelfPlayDataset(GuessWhatDataset):
             entry['categories'] = torch.from_numpy(np.array(entry['categories']))
             entry['bboxs_gt_gw'] = torch.from_numpy(np.array(entry['bboxs_gt_gw']))
             entry['bboxs_gt_vb'] = torch.from_numpy(np.array(entry['bboxs_gt_vb']))
-            # item['image_feature_gt'] = self._image_features_reader_gt[game.image_id]
-            # entry['qgen_image_features'] = torch.from_numpy(np.array(entry['qgen_image_features']))
-            # entry['qgen_bboxs'] = torch.from_numpy(np.array(entry['qgen_bboxs']))
+
 
     def __getitem__(self, index):
         entry = self.entries[index]
@@ -155,7 +141,7 @@ class SelfPlayDataset(GuessWhatDataset):
 def collate_fn(batch, wrd_pad_id):
     batch_size = len(batch)
     # batch
-    # game, qgen_img_feats, qgen_bboxs, tgt_cat, tgt_bbox, cats, bboxs, label, qs = zip(*batch)
+
     game, image_features_rcnn_qgen, bboxs_rcnn_qgen, image_features_rcnn_oracle, bboxs_rcnn_oracle,\
          tgt_cat, tgt_bbox_gw, tgt_bbox_vb, tgt_img_feat, cats, bboxs_gt_gw, bboxs_gt_vb, label, qs = zip(*batch)
     # Dealing with ground truth questions
@@ -190,9 +176,6 @@ def collate_fn(batch, wrd_pad_id):
     tgt_img_feat = torch.stack(tgt_img_feat).float()
     # (batch_size, padded_num_obj)
     cats = pad_sequence(cats, batch_first=True).long()
-    # (batch_size, padded_num_bboxs, feat dim)
-    # img_feat = pad_sequence(img_feat, batch_first=True).float()
-    # (batch_size, padded_num_bboxs, spatial dim)
     bboxs_gt_gw = pad_sequence(bboxs_gt_gw, batch_first=True).float()
     bboxs_gt_vb = pad_sequence(bboxs_gt_vb, batch_first=True).float()
     # (batch_size, padded_num_obj)

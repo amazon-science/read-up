@@ -157,7 +157,7 @@ class GW_Tokenizer(object):
         self.yes_id = self.word2i["<yes>"]
         self.no_id = self.word2i["<no>"]
         self.na_id = self.word2i["<n/a>"]
-#         self.answers = [self.yes_id, self.no_id, self.non_applicable_id]
+
 
     def encode(self, words):
         tokens = []

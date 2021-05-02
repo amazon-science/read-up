@@ -1,6 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: CC-BY-NC-4.0
-# baseline q-gen model
+# Train baseline q-gen model
 hparas:
   max_epoch: 30
   optimizer: "Adam"

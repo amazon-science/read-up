@@ -226,10 +226,7 @@ class SelfPlaySolver(BaseSolver):
 
                         
         if self.mode == 'train':
-            # TODO: write log
-            # self.write_log('scalars', 'accuracy', {'dev': avg_acc})
-            # self.write_log('scalars', 'accuracy', {'dev-nopad': avg_acc_nopad})
-            # self.write_log('scalars', 'loss', {'dev': avg_loss})
+
             score = -avg_loss
             if score > self.best_score:
                 #self.save_checkpoint('step_{}.pth'.format(self.step), score)

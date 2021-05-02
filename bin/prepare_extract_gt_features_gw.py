@@ -23,6 +23,8 @@ def run(args):
             continue
         item = dict()
 
+        # remove later: only for missing npy
+        if g.image_info['id'] not in idmap: continue
 
         item['file_name'] = g.image_info['file_name']
         item['file_path'] = idmap[g.image_info['id']]

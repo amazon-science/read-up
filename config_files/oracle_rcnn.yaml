@@ -1,6 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: CC-BY-NC-4.0
-# oracle_rcnn model
+# Train and evaluate oracle_rcnn model
 hparas:
   max_epoch: 15
   optimizer: "Adam"
@@ -15,9 +15,9 @@ data:
   batch_size: 256
   dataroot: "data"
   features_path:
-    train: 'data/rcnn/from_gt_gw_xyxy_scale/guesswhat.train.rcnn.npy'
-    valid: 'data/rcnn/from_gt_gw_xyxy_scale/guesswhat.valid.rcnn.npy'
-    test:  'data/rcnn/from_gt_gw_xyxy_scale/guesswhat.test.rcnn.npy'
+    train: 'data/rcnn/from_gt_gw_xyxy_scale/train'
+    valid: 'data/rcnn/from_gt_gw_xyxy_scale/valid'
+    test:  'data/rcnn/from_gt_gw_xyxy_scale/test'
 
 
 model:

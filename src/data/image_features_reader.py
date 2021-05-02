@@ -226,10 +226,7 @@ class h5FeatureReaderVilbert(object):
                 image_id = item["image_id"]
                 image_h = int(item["image_h"])
                 image_w = int(item["image_w"])
-                # num_boxes = int(item['num_boxes'])
 
-                # features = np.frombuffer(base64.b64decode(item["features"]), dtype=np.float32).reshape(num_boxes, 2048)
-                # boxes = np.frombuffer(base64.b64decode(item['boxes']), dtype=np.float32).reshape(num_boxes, 4)
                 features = item["features"].reshape(-1, 2048)
                 boxes = item["boxes"].reshape(-1, 4)
 

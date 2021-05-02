@@ -25,10 +25,8 @@ VALID_COMMAND = [
     'train-qgen-vdst',
     'train-qgen-vilbert',
     'test-self-play',
-    'test-self-play-oracle-rcnn',
     'test-self-play-qgen-vdst',
     'test-self-play-qgen-vilbert',
-    'test-self-play-qgen-vdst-oracle-rcnn',
     'test-self-play-qgen-vdst-oracle-vilbert',
     'test-self-play-qgen-vdst-guesser-vilbert',
     'test-self-play-qgen-vdst-oracle-vilbert-guesser-vilbert',
@@ -105,10 +103,7 @@ def run(args):
         kwargs = dict()
         mode = 'test'
         from solver.self_play import SelfPlaySolver as Solver
-    elif command == 'test-self-play-oracle-rcnn':
-        kwargs = dict()
-        mode = 'test'
-        from solver.self_play_oracle_rcnn import SelfPlaySolver as Solver
+
     elif command == 'test-self-play-qgen-vdst':
         kwargs = dict()
         mode = 'test'
@@ -117,10 +112,6 @@ def run(args):
         kwargs = dict()
         mode = 'test'
         from solver.self_play_qgen_vilbert import SelfPlaySolver as Solver
-    elif command == 'test-self-play-qgen-vdst-oracle-rcnn':
-        kwargs = dict()
-        mode = 'test'
-        from solver.self_play_qgen_vdst_oracle_rcnn import SelfPlaySolver as Solver
     elif command == 'test-self-play-qgen-vdst-oracle-vilbert':
         kwargs = dict()
         mode = 'test'

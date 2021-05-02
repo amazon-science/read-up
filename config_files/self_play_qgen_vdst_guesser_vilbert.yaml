@@ -1,6 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: CC-BY-NC-4.0
-# evaluate VDST q-gen model with baseline oracle + our guesser model
+# Evaluate VDST q-gen model with baseline oracle + our guesser model
 hparas:
   max_epoch: 30
   optimizer: "Adam"

@@ -44,7 +44,7 @@ class FeatureExtractor:
             type=str,
             help="Imdb file containing file path and bboxes.",
         )
-        parser.add_argument("--batch_size", type=int, default=2, help="Batch size")
+        parser.add_argument("--batch_size", type=int, default=1, help="Batch size")
         parser.add_argument(
             "--num_features",
             type=int,
@@ -245,6 +245,7 @@ class FeatureExtractor:
         file_base_name = str(file_base_name) + ".npy"
 
         np.save(os.path.join(self.args.output_folder, file_base_name), info)
+        print(os.path.join(self.args.output_folder, file_base_name))
 
     def extract_features(self):
         files = np.load(self.args.imdb_gt_file, allow_pickle=True)
@@ -253,18 +254,18 @@ class FeatureExtractor:
         # files = sorted(files)
         # files = [files[i: i+1000] for i in range(0, len(files), 1000)][self.args.partition]
         for chunk in self._chunks(files, self.args.batch_size):
-            # Begin Amazon modification
-            cnt += 1
-            print("Extracting features ... {}/{}                 ".format(
-                cnt*self.args.batch_size, total), end='\r')
-            # End Amazon modification
             try:
+                # Begin Amazon modification
+                cnt += 1
+                print("Extracting features ... {}/{}                 ".format(
+                    cnt * self.args.batch_size, total), end='\r')
+                # End Amazon modification
                 features, infos = self.get_detectron_features(chunk)
                 for idx, c in enumerate(chunk):
                     self._save_feature(c["file_name"], features[idx], infos[idx])
-            except BaseException:
+            except BaseException as e:
+                print(e)
                 continue
-        print()
 
 
 if __name__ == "__main__":

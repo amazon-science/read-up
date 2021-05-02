@@ -1,6 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: CC-BY-NC-4.0
-# evaluate VDST q-gen model with our oracle model + our guesser model
+# Evaluate VDST q-gen model with our oracle model + our guesser model
 hparas:
   max_epoch: 30
   optimizer: "Adam"
@@ -39,7 +39,7 @@ model:
     num_glimpses: 2
 
   oracle:
-    pretrained_path: "ckpt/oracle_vilbert-sd0/epoch-14.pth"
+    pretrained_path: "ckpt/oracle_vilbert-sd0/epoch-3.pth"
     spatial_size: 5
     num_cats: 100              # Number of catergories: 91 (actually)
     cat_embed_size: 512

@@ -33,11 +33,7 @@ class SelfPlayModel(nn.Module):
         )
         return "Load %s from %s" % (player, path)
 
-    # generate_sentence(
-    #     self, last_wrd, obj_feats, eoq_token, eod_token, end_of_dialog, 
-    #     max_q_len, pi=None, last_state=None, greedy=True):
-    # return:
-    #     q_tokens, actual_length, last_state, obj_repr, end_of_dialog
+
 
     def play(self, obj_feats, tgt_cat, tgt_bbox, cats, bboxs, bboxs_mask, 
              sos_token, pad_token, eoq_token, eod_token, 
@@ -62,9 +58,7 @@ class SelfPlayModel(nn.Module):
                 last_wrd, obj_feats, eoq_token, eod_token, end_of_dialog, 
                 max_q_len=max_q_len, pi=pi, last_state=last_state, greedy=greedy
             )
-            # q, state, q_len, end_of_dialog_next = self.qgen.generate(
-            #     last_wrd, img_feat, eoq_token, eod_token, end_of_dialog, 
-            #     max_q_len, last_state=last_state, greedy=greedy)
+
             
             pad_q = pad_sequence(q, batch_first=True, padding_value=pad_token)
             # HACK: length == 0 can not forward in RNN

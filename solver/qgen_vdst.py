@@ -78,9 +78,6 @@ class QGenSolver(BaseSolver):
     def fetch_data(self, data):
         game, qs, tf_input, answers, q_len, obj_feats = data
         # Teacher forcing
-        # (batch_size, num_turns, question_len)
-        # tf_input = torch.cat([
-        #     torch.zeros(qs.size(0), qs.size(1), 1).long(), qs[:, :, :-1].clone()], dim=-1) #.fill_(self.tokenizer.sos_id)
         tf_input = torch.cat([torch.zeros(qs.size(0), qs.size(1), 1).long(), tf_input], dim=-1)
         tf_input[:, 0, 0] = self.tokenizer.sos_id
         tf_input[:, 1:, 0] = answers
@@ -189,9 +186,7 @@ class QGenSolver(BaseSolver):
                         if self.step == 0:
                             self.write_log('text', '(teacher-forcing)-target-%d' % val_step, dial_tgt)
 
-                        
-                        # pi = (torch.ones(batch_size, self.num_bboxs) / self.num_bboxs).to(device)
-                        # last_state = None
+
                         last_wrd = torch.zeros(batch_size).fill_(self.tokenizer.sos_id).long().to(device)
                         end_of_dialog = torch.zeros(batch_size).bool().to(device)
                         # for t in range(NUM_TURNS_FOR_VALIDATION):
@@ -207,7 +202,6 @@ class QGenSolver(BaseSolver):
         self.write_log('scalars', 'loss', {'dev': avg_loss})
         score = -avg_loss
         if score > self.best_score and self.mode == 'train':
-            #self.save_checkpoint('step_{}.pth'.format(self.step), score)
             self.save_checkpoint('best.pth', score)
             self.best_score = score
 

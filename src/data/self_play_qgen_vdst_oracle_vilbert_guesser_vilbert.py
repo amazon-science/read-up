@@ -105,9 +105,6 @@ class SelfPlayDataset(GuessWhatDataset):
         feats, _, bboxs, _ = self._image_features_reader['oracle'][image_id]
         image_features_rcnn_oracle = torch.from_numpy(np.array(feats))
         bboxs_rcnn_oracle = torch.from_numpy(np.array(bboxs))
-        # bboxs_rcnn_oracle = torch.from_numpy(np.array([
-        #     bbox2spatial_vilbert(box, game.image_width, game.image_height, mode='xyxy') 
-        #     for box in bboxs]))
         # gt
         feats, bboxs, _ = self._image_features_reader_gt[image_id]
         # image_features_rcnn_gt = torch.from_numpy(np.array(feats))
@@ -190,11 +187,7 @@ def collate_fn(batch, wrd_pad_id):
     tgt_img_feat = torch.stack(tgt_img_feat).float()
     # (batch_size, padded_num_obj)
     cats_guesser = pad_sequence(cats_guesser, batch_first=True).long()
-    # (batch_size, padded_num_bboxs, feat dim)
-    # img_feat = pad_sequence(img_feat, batch_first=True).float()
-    # (batch_size, padded_num_bboxs, spatial dim)
-    # bboxs_gt_gw = pad_sequence(bboxs_gt_gw, batch_first=True).float()
-    # bboxs_gt_vb = pad_sequence(bboxs_gt_vb, batch_first=True).float()
+
     # (batch_size, padded_num_obj)
     bboxs_mask = [torch.ones(len(xs)) for xs in bboxs_rcnn_gt_guesser]
     bboxs_mask = pad_sequence(bboxs_mask, batch_first=True).bool()

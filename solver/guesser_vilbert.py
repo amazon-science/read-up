@@ -190,15 +190,11 @@ class GuesserSolver(BaseSolver):
                     if write_log:
                         for g, l, p, stat_h in zip(game, label, pred.argmax(dim=-1), stat_his):
                             out_file.write("{}|{}|{}|{}\n".format(g.id, l, p,stat_h.tolist()))
-        # [TODO]
-        # Write log
-        #
-        #
+
 
         score = total_hit / float(cnt)
         loss = total_loss / float(len(specified_set))
         if score > self.best_score and self.mode == 'train':
-            #self.save_checkpoint('step_{}.pth'.format(self.step), score)
             self.save_checkpoint('best.pth', score)
             self.best_score = score
 
