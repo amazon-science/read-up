@@ -45,7 +45,7 @@ def run(args):
     assert command in VALID_COMMAND, \
         "%s is not a valid command." % command
     _set_seed(args.seed)
-    config = yaml.load(open(args.config, 'r'), Loader=yaml.FullLoader)
+    config = yaml.safe_load(open(args.config, 'r'))
 
     if command == 'train-oracle':
         kwargs = dict()
