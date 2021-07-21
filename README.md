@@ -3,6 +3,18 @@ Or **READ-UP**: **R**eferring **E**xpression **A**gent **D**ialog with **U**nifi
 
 This repo includes the training/testing code for our paper _Learning Better Visual Dialog Agents with Pretrained Visual-Linguistic Representation_ that has been accepted by CVPR 2021. Please cite this work if you use the code in this repository.
 
+Please cite the following paper if you use the code in this repository:
+```
+@inproceedings{tu2021learning,
+  title={Learning Better Visual Dialog Agents with Pretrained Visual-Linguistic Representation},
+  author={Tu, Tao and Ping, Qing and Thattai, Govindarajan and Tur, Gokhan and Natarajan, Prem},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={5622--5631},
+  year={2021}
+}
+```
+
+
 ## Repository Setup ## 
 ### Environment ### 
 The following environment is recommended:
