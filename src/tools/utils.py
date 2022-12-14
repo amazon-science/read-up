@@ -185,18 +185,20 @@ class Game(object):
     def __init__(self, game_id, object_id, image_info, objects, qas, status):
         self.id = game_id
         self.object_id = object_id
+        image_info['id'] = int(image_info['file_name'].split('_')[2].split('.')[0])
         self.image_info = image_info
         self.image_id = image_info['id']
         self.image_height = image_info['height']
         self.image_width = image_info['width']
-        self.objects = objects
+        # self.objects = objects
+        self.objects = [v for _,v in objects.items()]
         self.qas = qas
         self.status = status
         tgt_index, bboxs, cats = -1, [], []
         for index, obj in enumerate(self.objects):
             bboxs.append(obj['bbox'])
             cats.append(obj['category_id'])
-            if obj['id'] == self.object_id:
+            if obj['object_id'] == self.object_id:
                 assert tgt_index == -1, "Too many target object in game %d." % self.id
                 tgt_index = index
         assert tgt_index != -1, "There is no target object in game %d" % self.id
@@ -208,9 +210,9 @@ class Game(object):
     @classmethod
     def from_annotation(cls, annotation):
         return cls(
-            game_id=annotation['id'],
+            game_id=annotation['dialogue_id'],
             object_id=annotation['object_id'],
-            image_info=annotation['image'],
+            image_info=annotation['picture'],
             objects=annotation['objects'],
             qas=annotation['qas'],
             status=annotation['status'])
